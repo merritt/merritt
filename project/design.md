@@ -3,7 +3,7 @@ This is a strawman proposal for the design of Merritt.
 # Goal
 The goal of `merritt/merritt` is to create an open source container management application.  This will be assembled from a variety of "extensions" that are implemented in containers.  Each service will provide a standard interface for implementation and a GRPC API for other services to use.
 
-# Layout
+# Components
 To facilitate the extension model, the following "core" services will be implemented:
 
 ## merritt/axiom
