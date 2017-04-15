@@ -50,7 +50,7 @@ check:
 	@golint $(DEPS)
 
 test: build
-	@go test -v $(glide novendor)
+	@go test -v $(shell glide novendor)
 
 clean:
 	@rm -rf build
