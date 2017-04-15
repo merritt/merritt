@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  proxy:
+    image: ehazlett/docker-proxy:latest
+    command: -i
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "2375"
+
+  merritt:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    entrypoint: /bin/ash
+    command: -c "make build && ./merritt -D server -d http://proxy:2375"
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - proxy
+
+  ui:
+    build:
+      context: ui
+      dockerfile: Dockerfile.build
+    entrypoint: /bin/ash
+    command: -c "yarn install && yarn start"
+    working_dir: /usr/src/app
+    volumes:
+      - "./ui:/usr/src/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - merritt
