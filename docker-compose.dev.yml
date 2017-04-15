@@ -14,7 +14,7 @@ services:
 
   ui:
     build:
-      context: .
+      context: ui
       dockerfile: Dockerfile.ui
     entrypoint: /bin/ash
     command: -c "yarn install && yarn start"

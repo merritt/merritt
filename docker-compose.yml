@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  merritt:
+    image: merritt/merritt
+    ports:
+      - "8080:8080"

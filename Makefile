@@ -28,14 +28,19 @@ build-static:
 		./cmd/$(APP)
 
 build-ui-image: $(UI_SRCS)
-	docker build \
+	@docker build \
 		-t $(UI_BUILD_IMAGE) \
-		-f Dockerfile.ui \
-		.
+		-f ui/Dockerfile.ui \
+		ui
 
 build/ui: build-ui-image
 	@mkdir -p build/ui && \
 		docker run --rm -i $(UI_BUILD_IMAGE) | tar xvzf - -C build/ui
+
+image: build-static build/ui
+	@docker build \
+		-t $(REPO):$(TAG) \
+		.
 
 release: image
 	@docker push $(REPO):$(TAG)
