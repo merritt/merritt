@@ -1,0 +1,14 @@
+FROM ubuntu
+
+ENV SAUCE_VERSION 4.4.5
+
+WORKDIR /usr/local/sauce-connect
+
+RUN apt-get update -qqy && apt-get install -qqy wget
+RUN wget https://saucelabs.com/downloads/sc-$SAUCE_VERSION-linux.tar.gz -O - | tar -xz
+
+WORKDIR /usr/local/sauce-connect/sc-$SAUCE_VERSION-linux
+
+EXPOSE 8000
+
+ENTRYPOINT ["./bin/sc"]

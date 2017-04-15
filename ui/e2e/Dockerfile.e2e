@@ -1,0 +1,14 @@
+FROM node:7.8-alpine
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+RUN yarn global add nightwatch
+
+COPY package.json /usr/src/app/
+RUN yarn install
+
+COPY . /usr/src/app
+
+ENTRYPOINT ["nightwatch"]
+CMD ["-e", "default,chrome,safari,edge,ie"]

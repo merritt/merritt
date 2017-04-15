@@ -1,12 +1,10 @@
 sudo: required
-
 language: go
-
 services:
-  - docker
-
-script: ./hack/make.sh check build test image
-
+- docker
+script:
+- "time ./hack/make.sh check build test image"
+- "time ./hack/ui-test.sh"
 notifications:
   slack:
     secure: Tf+g1zsEtWIutVKBVL3fflJYDT++dONAieKp9BlN/n3HGsHpDPaje8D4Jt8RQfPNpfpccCODW00T5DSwsfEuzbhktWpnFPSvhuOnwh3aUfvpwB31UVyKWZCT/u+R95HImvEWg3ribMB7FZWXLduRO7fYjU1/OapcZwsyWdtwnRmQEQ+DrapiuHFc5Xmtj2JcIWdE/X+n+7/eGPh2WWqwkR3TrYkWetdpASIlC1D14G4CFSlsTEmH9Tte6KtCrFA7q3rfvdI6gOjVUgYsYeY8aViMz8Dvt0JhrM+yJnCmAjfs2Zk5HPxhP/uKKLUe/nXQBsltgmhyGIWIYk0e3+ViMXRXMudTQ380xSwAL8CWRTofqoqysEsdRrAObOzizbZjqhteCarc74RVfpATi3dX1U/BqgmfIIILnSxIg7I+e8sFlSGH7xIGKzXLnpqspiaRN8K5Wmc0nWuyDdm/K3c35zgCYvfsy8SQt8D575TkTan9Uqjeyg2TcYDx3iMNCy3I1ta0JmuNkl8YBwYfGEOp2goo9jHyM7c/wu0l9BB+Nqwr9DKVMcD+7X6l5qi/Y6LCj2zc0VbtLH0KHtKwUaEjq3fztBsWHxjtC121lDucKW+mUUUhAK9GrHE9XMuwwNjc4Dg9RAYGrzDecIheh8L/peYO8HUb+Gyz5Gm5r0fw/zE=
