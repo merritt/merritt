@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+  proxy:
+    image: ehazlett/docker-proxy:latest
+    command: -i
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "2375"
+
+  controller:
+    image: "shipyard/shipyard"
+    command: server -d http://proxy:2375
+    ports:
+      - "8080:8080"
+    depends_on:
+      - proxy
