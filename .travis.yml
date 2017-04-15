@@ -3,13 +3,11 @@ language: go
 services:
 - docker
 
-before_script:
-  - ./hack/make.sh clean image
-  - docker run --rm -p 8080:8080 merritt/merritt run
-
 script: 
   - ./hack/make.sh check build test image
+  - docker run --name merritt -d -it --rm -p 8080:8080 merritt/merritt run
   - ./hack/make.sh selenium
+  - docker rm -fv merritt
 
 notifications:
   slack:
