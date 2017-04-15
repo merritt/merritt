@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  merritt:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    entrypoint: /bin/ash
+    command: -c "make build && cd build && ./merritt -D run"
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "8080:8080"
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    entrypoint: /bin/ash
+    command: -c "yarn install && yarn start"
+    working_dir: /usr/src/app
+    volumes:
+      - "./ui:/usr/src/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - merritt
