@@ -5,7 +5,7 @@ language: go
 services:
   - docker
 
-script: ./script/make.sh check build test image
+script: ./hack/make.sh check build test image
 
 notifications:
   slack:
