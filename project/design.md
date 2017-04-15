@@ -6,6 +6,9 @@ The goal of `merritt/merritt` is to create an open source container management a
 # Components
 To facilitate the extension model, the following "core" services will be implemented:
 
+## merritt/merritt
+This will be the assembly point and the repo that will generate the output for the application.
+
 ## merritt/axiom
 Axiom is a container metadata service.  This communicates with the lower level container service and exposes an API that can be consumed to view and manage the lower level executor.  This will work across multiple hosts to give entire cluster management.
 
