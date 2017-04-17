@@ -1,6 +1,6 @@
 # Merritt
 
-[![Slack](https://merritt-slack.herokuapp.com/badge.svg)](https://merritt-slack.herokuapp.com/)
+[![Slack](https://merritt-slack.herokuapp.com/badge.svg)](https://merritt-slack.herokuapp.com/) [![Build Status](https://travis-ci.org/merritt/merritt.svg?branch=master)](https://travis-ci.org/merritt/merritt)
 
 ## Contributing
 
