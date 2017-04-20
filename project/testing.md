@@ -61,4 +61,19 @@ describe("App", () => {
 
 ### End-to-End Tests
 
-...
+Tests that exercise the system end-to-end via the frontend use selenium. We are using [nightwatch](http://nightwatchjs.org/) as the test framework, runner and selenium client.
+
+For the selenium backend, we are using [Saucelabs](https://saucelabs.com/) which is free for open-source use. Saucelabs provides a SaaS solution for selenium testing across a wide variety of browsers and OSes.
+
+To run these tests locally against saucelabs, you will need to create an account with saucelabs and populate the following environment variables:
+
+```shell
+export SAUCE_ACCESS_KEY=<your-access-key>
+export SAUCE_USERNAME=<your-username>
+```
+
+Once the environment variables have been populated, you can run the tests with the following bash script:
+
+```shell
+./hack/ui-test.sh
+```

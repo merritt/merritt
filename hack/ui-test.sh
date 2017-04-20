@@ -54,14 +54,17 @@ function finish {
 }
 trap finish EXIT
 
+# Create a bridge network for merrit, saucelabs connect and tests to communicate
 docker network create ${NETWORK_NAME} || true
 
+# Run the merritt backend being tested
 docker run -it -d \
     --name ${MERRITT_CONTAINER_NAME} \
     --network ${NETWORK_NAME} \
     ${MERRITT_IMAGE_NAME} \
     -D run
 
+# Wait for merritt to be ready
 RETRY_TIMEOUT=24
 RETRY_ATTEMPTS=0
 until url_ready ${TEST_URL} || [ $RETRY_ATTEMPTS -eq $RETRY_TIMEOUT ]; do
@@ -69,18 +72,21 @@ until url_ready ${TEST_URL} || [ $RETRY_ATTEMPTS -eq $RETRY_TIMEOUT ]; do
    sleep 5s
 done
 
+# Build a docker image with the latest suite of tests and test runner
 echo "Building ${UI_E2E_IMAGE_NAME} image for ui tests"
 docker build \
     -t ${UI_E2E_IMAGE_NAME} \
     -f ui/e2e/Dockerfile.e2e \
     ui/e2e
 
+# Build a docker image containing the saucelabs proxy
 echo "Building ${SAUCE_CONNECT_IMAGE_NAME} image for saucelabs connection"
 docker build \
     -t ${SAUCE_CONNECT_IMAGE_NAME} \
     -f ui/e2e/Dockerfile.sauceconnect \
     ui/e2e
 
+# Run the saucelabs proxy using provided access key and username
 echo "Running ${SAUCE_CONNECT_IMAGE_NAME}"
 docker run -d -it \
     --name ${SAUCE_CONTAINER_NAME} \
@@ -97,6 +103,7 @@ until url_ready ${SAUCE_URL} || [ $RETRY_ATTEMPTS -eq $RETRY_TIMEOUT ]; do
    sleep 5s
 done
 
+# Run the test against saucelabs
 echo "Running ${UI_E2E_IMAGE_NAME}"
 docker run --rm -it \
     --name ${TEST_CONTAINER_NAME} \
