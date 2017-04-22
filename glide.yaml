@@ -1,6 +1,7 @@
 package: github.com/merritt/merritt
 import:
+- package: github.com/Sirupsen/logrus
 - package: github.com/codegangsta/cli
-  version: ~1.19.1
-- package: github.com/sirupsen/logrus
-  version: ~0.11.2
+- package: github.com/mailgun/oxy
+  subpackages:
+  - forward
