@@ -51,7 +51,9 @@ func (a *API) Run() error {
 		Handler: context.ClearHandler(globalMux),
 	}
 
-	logrus.Infof("api started: addr=%s", a.config.ListenAddr)
+	logrus.WithFields(logrus.Fields{
+		"addr": a.config.ListenAddr,
+	}).Info("api started")
 	if err = s.ListenAndServe(); err != nil {
 		return err
 	}
