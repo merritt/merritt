@@ -1,12 +1,20 @@
 version: '2'
 
 services:
+  proxy:
+    image: ehazlett/docker-proxy:latest
+    command: -i
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+        - "2375"
+
   merritt:
     build:
       context: .
       dockerfile: Dockerfile.build
     entrypoint: /bin/ash
-    command: -c "make build && cd build && ./merritt -D run"
+    command: -c "make clean build && cd build && ./merritt -D run -d http://proxy:2375"
     volumes:
       - ".:/usr/src/app"
     ports:

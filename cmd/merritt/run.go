@@ -1,11 +1,10 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/merritt/merritt/api"
 	"github.com/merritt/merritt/version"
-	"github.com/sirupsen/logrus"
 )
 
 var runCommand = cli.Command{
@@ -23,6 +22,11 @@ var runCommand = cli.Command{
 			Usage: "path to ui media directory",
 			Value: "ui",
 		},
+		cli.StringFlag{
+			Name:  "docker-url, d",
+			Usage: "docker swarm URL",
+			Value: "http://127.0.0.1:2375",
+		},
 	},
 }
 
@@ -31,19 +35,19 @@ func runAction(c *cli.Context) {
 
 	listenAddr := c.String("listen")
 	uiDir := c.String("ui-dir")
+	dockerURL := c.String("docker-url")
 
-	globalMux := http.NewServeMux()
-	// static handler
-	globalMux.Handle("/", http.FileServer(http.Dir(uiDir)))
-
-	s := &http.Server{
-		Addr:    listenAddr,
-		Handler: globalMux,
-	}
-
-	logrus.Infof("api started: addr=%s", listenAddr)
-	if err := s.ListenAndServe(); err != nil {
+	api, err := api.NewAPI(api.Config{
+		ListenAddr: listenAddr,
+		UIDir:      uiDir,
+		DockerURL:  dockerURL,
+	})
+	if err != nil {
 		logrus.Fatal(err)
 	}
 
+	err = api.Run()
+	if err != nil {
+		logrus.Fatal(err)
+	}
 }

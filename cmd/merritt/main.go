@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 	"github.com/merritt/merritt/version"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {
