@@ -5,7 +5,7 @@ import (
 	"net/url"
 )
 
-func (a *API) swarmRedirect(w http.ResponseWriter, req *http.Request) {
+func (a *API) swarmProxy(w http.ResponseWriter, req *http.Request) {
 	var err error
 	req.URL, err = url.ParseRequestURI(a.dockerURL)
 	if err != nil {

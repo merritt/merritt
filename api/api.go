@@ -45,7 +45,7 @@ func (a *API) Run() error {
 		return err
 	}
 
-	globalMux.HandleFunc("/info", a.swarmRedirect)
+	globalMux.HandleFunc("/info", a.swarmProxy)
 
 	// static handler
 	globalMux.Handle("/", http.FileServer(http.Dir(a.uiDir)))
