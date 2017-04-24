@@ -7,7 +7,7 @@ import (
 
 func (a *API) swarmProxy(w http.ResponseWriter, req *http.Request) {
 	var err error
-	req.URL, err = url.ParseRequestURI(a.dockerURL)
+	req.URL, err = url.ParseRequestURI(a.config.DockerURL)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

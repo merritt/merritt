@@ -11,10 +11,8 @@ import (
 type (
 	// API services a set of HTTP routes
 	API struct {
-		listenAddr string
-		uiDir      string
-		dockerURL  string
-		fwd        *forward.Forwarder
+		config *Config
+		fwd    *forward.Forwarder
 	}
 
 	// Config for constructing an API
@@ -28,9 +26,7 @@ type (
 // NewAPI configures and creates an API instance
 func NewAPI(config Config) (*API, error) {
 	return &API{
-		listenAddr: config.ListenAddr,
-		uiDir:      config.UIDir,
-		dockerURL:  config.DockerURL,
+		config: &config,
 	}, nil
 }
 
@@ -48,14 +44,14 @@ func (a *API) Run() error {
 	globalMux.HandleFunc("/info", a.swarmProxy)
 
 	// static handler
-	globalMux.Handle("/", http.FileServer(http.Dir(a.uiDir)))
+	globalMux.Handle("/", http.FileServer(http.Dir(a.config.UIDir)))
 
 	s := &http.Server{
-		Addr:    a.listenAddr,
+		Addr:    a.config.ListenAddr,
 		Handler: context.ClearHandler(globalMux),
 	}
 
-	logrus.Infof("api started: addr=%s", a.listenAddr)
+	logrus.Infof("api started: addr=%s", a.config.ListenAddr)
 	if err = s.ListenAndServe(); err != nil {
 		return err
 	}

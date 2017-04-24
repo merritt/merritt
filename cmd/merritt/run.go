@@ -37,7 +37,11 @@ func runAction(c *cli.Context) {
 	uiDir := c.String("ui-dir")
 	dockerURL := c.String("docker-url")
 
-	api, err := api.NewAPI(api.Config{ListenAddr: listenAddr, UIDir: uiDir, DockerURL: dockerURL})
+	api, err := api.NewAPI(api.Config{
+		ListenAddr: listenAddr,
+		UIDir:      uiDir,
+		DockerURL:  dockerURL,
+	})
 	if err != nil {
 		logrus.Fatal(err)
 	}
