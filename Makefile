@@ -63,6 +63,13 @@ check:
 test: build
 	@go test -v $(DEPS)
 
+test-ui: build-ui-image
+	@echo Running UI jest suite: $(UI_BUILD_IMAGE)
+	@docker run --rm -i \
+		-e CI=true\
+		$(UI_BUILD_IMAGE) \
+		yarn test
+
 clean:
 	@rm -rf build
 
